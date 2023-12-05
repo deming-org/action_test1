@@ -42,11 +42,32 @@ jobs:
           echo "配置变量var1：${{ vars.VAR1 }}"
           echo -e "配置变量-环境级别：${{ vars.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
-      - name: 打包上传
+      - name: 打包压缩
         run: |
           rm -rf .git*
-          tar -zcvf /${job_id}_${ENV_CODE}.tgz ./*
-          ls -l /${job_id}_${ENV_CODE}.tgz && tar -tzvf /${job_id}_${ENV_CODE}.tgz
+          tar -zcvf /${{ github.job_id }}_${ENV_CODE}_${{ github.sha }}.tgz *
+          ls -l ${job_id}_${ENV_CODE}_${{ github.sha }}.tgz && tar -tzvf ${job_id}_${ENV_CODE}_${{ github.sha }}.tgz
+      - name: 上传到artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-build
+          path: ${job_id}_${ENV_CODE}_${{ github.sha }}.tgz
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: 下载制品
+        uses: actions/download-artifact@v2.1.1
+        with:
+          # Artifact name
+          name: app-build
+      - name: 上传服务器
+        run: ls -a && echo "我是上传服务器"
+      - name: 服务器部署操作
+        run: echo "解压缩到指定目录， 用户权限， 重启进程"
+      - name: 发送通知
+        run: echo "飞书机器人通知"
+          
   # deploy:
   #   runs-on: ubuntu-latest
   #   environment: ${{ inputs.environment }}
