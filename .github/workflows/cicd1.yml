@@ -31,7 +31,7 @@ jobs:
       - name: 拉取代码
         uses: actions/checkout@v4
         with: 
-          ref: ${env.REF}
+          ref: ${{ env.REF }}
       - name: 输出当前目录
         run: pwd && ls -a
       - name: 执行编译
