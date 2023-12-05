@@ -15,6 +15,7 @@ jobs:
   build:
     # job运行所依赖的runner，也就是操作系统环境
     runs-on: ubuntu-latest
+    environment: dev
     env:
       my_var1: "Hello"
 
