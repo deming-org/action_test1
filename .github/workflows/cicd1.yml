@@ -25,10 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
-      TAGS: ${{ inputs.tags }}
+      REF: ${{ inputs.ref }}
+      ENV_CODE: ${{ inputs.environment }}
     steps:
       - name: 拉取代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@$REF
       - name: 输出当前目录
         run: pwd && ls -a
       - name: 执行编译
@@ -42,8 +43,8 @@ jobs:
       - name: 打包上传
         run: |
           rm -rf .git*
-          tar -tcvf /${job_id}_${{ inputs.environment }}.tgz ./*
-          ls -l /${job_id}_${{ inputs.environment }}.tgz
+          tar -zcvf /${job_id}_${ENV_CODE}.tgz ./*
+          ls -l /${job_id}_${ENV_CODE}.tgz && tar -tzvf /${job_id}_${ENV_CODE}.tgz
   # deploy:
   #   runs-on: ubuntu-latest
   #   environment: ${{ inputs.environment }}
