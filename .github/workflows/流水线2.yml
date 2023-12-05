@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: 流水线1
+name: 流水线2
 
 # 触发workflow的条件
 on:
