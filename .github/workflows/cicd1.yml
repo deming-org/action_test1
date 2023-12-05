@@ -1,0 +1,55 @@
+name: cicd1
+
+# 触发workflow的条件
+on:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: '分支/tag'
+        required: true
+        type: string
+      environment:
+        description: '环境'
+        required: true
+        type: environment
+
+# 组成工作流的jobs， 包含一个以上的job
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      TAGS: ${{ inputs.tags }}
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+      - name: 输出当前目录
+        run: pwd && ls -a
+      - name: 执行编译
+          echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID"
+          echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/${GITHUB_WORKFLOW}.yml"
+          echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "配置变量var1：${{ vars.VAR1 }}"
+          echo -e "配置变量-环境级别：${{ vars.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
+          echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: 运行playbook
+        uses: dawidd6/action-ansible-playbook@v2.5.0
+        with:
+          # playbook 文件位置
+          playbook: ansible/deploy-playbook.yml
+          directory: ./
+          # 远程主机时使用的ssh密钥
+          key: ${{ secrets.ansible_ssh_private_key }}
+          # 远程主机信息
+          inventory: ${{ secrets.ansible_inventory }}
+          
