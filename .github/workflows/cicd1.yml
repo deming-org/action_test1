@@ -39,18 +39,23 @@ jobs:
           echo "配置变量var1：${{ vars.VAR1 }}"
           echo -e "配置变量-环境级别：${{ vars.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
-  deploy:
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    steps:
-      - name: 运行playbook
-        uses: dawidd6/action-ansible-playbook@v2.5.0
-        with:
-          # playbook 文件位置
-          playbook: ansible/deploy-playbook.yml
-          directory: ./
-          # 远程主机时使用的ssh密钥
-          key: ${{ secrets.ansible_ssh_private_key }}
-          # 远程主机信息
-          inventory: ${{ secrets.ansible_inventory }}
+      - name: 打包上传
+        run: |
+          rm -rf .git*
+          tar -tcvf /${job_id}_${{ inputs.environment }}.tgz ./*
+          ls -l /${job_id}_${{ inputs.environment }}.tgz
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ inputs.environment }}
+  #   steps:
+  #     - name: 运行playbook
+  #       uses: dawidd6/action-ansible-playbook@v2.5.0
+  #       with:
+  #         # playbook 文件位置
+  #         playbook: ansible/deploy-playbook.yml
+  #         directory: ./
+  #         # 远程主机时使用的ssh密钥
+  #         key: ${{ secrets.ansible_ssh_private_key }}
+  #         # 远程主机信息
+  #         inventory: ${{ secrets.ansible_inventory }}
           
