@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: 流水线2
+
+# 触发workflow的条件
+on:
+  # 每次提交都触发
+  push:
+    branches:
+      - bestboylm-patch-1
+
+# 组成工作流的jobs， 包含一个以上的job
+jobs:
+  # 定义一个job，名称为build
+  build:
+    # job运行所依赖的runner，也就是操作系统环境
+    runs-on: ubuntu-latest
+    env:
+      my_var1: "Hello"
+
+    # job中steps代表一组action（可执行的操作）
+    steps:
+      # 定义action名称，run关键字是action的一种类型，表示执行脚本
+      - name: 输出当前目录
+        run: pwd
+      - name: 输出一堆变量
+        run: |
+          echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID\t环境：$GITHUB_ENV"
+          echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/$GITHUB_WORKFLOW"
+          echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "配置变量var1：${{ vars.VAR1 }}"
+          echo -e "配置变量-环境级别：${{ vars.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
+          echo "workflow环境变量my_var1：$my_var1" 
