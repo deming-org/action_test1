@@ -29,7 +29,9 @@ jobs:
       ENV_CODE: ${{ inputs.environment }}
     steps:
       - name: 拉取代码
-        uses: actions/checkout@$REF
+        uses: actions/checkout@v4
+        with: 
+          ref: ${REF}
       - name: 输出当前目录
         run: pwd && ls -a
       - name: 执行编译
