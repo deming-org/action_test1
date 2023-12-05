@@ -32,6 +32,7 @@ jobs:
       - name: 输出当前目录
         run: pwd && ls -a
       - name: 执行编译
+        run: |
           echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID"
           echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/${GITHUB_WORKFLOW}.yml"
           echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
