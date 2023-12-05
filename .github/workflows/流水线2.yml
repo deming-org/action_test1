@@ -16,7 +16,7 @@ jobs:
     # job运行所依赖的runner，也就是操作系统环境
     runs-on: ubuntu-latest
     env:
-      my_var1: ${{ var.var1 }}
+      my_var1: "Hello"
 
     # job中steps代表一组action（可执行的操作）
     steps:
