@@ -1,10 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: 流水线1
+name: bestboylm_dev
 
 # 触发workflow的条件
 on:
-  workflow_dispatch:
+  # 每次提交都触发
+  push:
+    branches:
+      - bestboylm_dev
 
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
@@ -12,6 +15,7 @@ jobs:
   build:
     # job运行所依赖的runner，也就是操作系统环境
     runs-on: ubuntu-latest
+    environment: dev
     env:
       my_var1: "Hello"
 
@@ -19,7 +23,7 @@ jobs:
     steps:
       # 定义action名称，run关键字是action的一种类型，表示执行脚本
       - name: 输出当前目录
-        run: pwd
+        run: pwd && ls /
       - name: 输出一堆变量
         run: |
           echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID\t环境：$GITHUB_ENV"
