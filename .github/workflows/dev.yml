@@ -28,6 +28,6 @@ jobs:
           echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID\t环境：$GITHUB_ENV"
           echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/$GITHUB_WORKFLOW"
           echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          echo "配置变量var1：${{ vars.VAR1 }}"
-          echo -e "配置变量-环境级别：${{ vars.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
+          echo "配置变量var1：${{ env.VAR1 }}"
+          echo -e "配置变量-环境级别：${{ env.ENV_VAR }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           echo "workflow环境变量my_var1：$my_var1" 
