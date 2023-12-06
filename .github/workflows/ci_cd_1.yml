@@ -100,11 +100,11 @@ jobs:
         id: demo1
         run: echo "conclusion => ${{ steps.demo.conclusion }}"
       - name: 部署2
-        id: demo
-        run: exit 1
+        id: demo2
+        run: echo "conclusion => ${{ steps.demo1.conclusion }}"; exit 1
       - name: The demo step has failed
-        if: ${{ failure() && steps.demo.conclusion == 'failure' }}
-        run: echo "conclusion => ${{ steps.demo.conclusion }}"
+        if: ${{ failure() }}
+        run: echo "conclusion => ${{ steps.demo2.conclusion }}, job status: ${{ job.status }}"
       # - name: 飞书通知
       #   env:
       #     ACTIONS_FEISHU_TAG: 'v1.3.1'
