@@ -15,14 +15,16 @@ on:
     #     required: true
     #     type: environment
 env:
-  WF_ENV: ${{ vars.ENV }}
+  # WF_ENV: ${{ vars.ENV }}
+  WF_ENV: hello1
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
     runs-on: ubuntu-latest
     # environment: ${{ inputs.environment }}
     env:
-      JB1_ENV: ${{ vars.ENV }}
+      # JB1_ENV: ${{ vars.ENV }}
+      JB1_ENV: Hello2
     steps:
       # - name: 拉取代码
       #   uses: actions/checkout@v4
@@ -46,7 +48,7 @@ jobs:
           echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/${GITHUB_WORKFLOW}.yml"
           echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           echo "配置变量var1：${{ vars.VAR1 }}"
-          echo "workflow变量 - 流级别: ${{ env.WF_ENV }}\tworkflow变量 - 作业级别：$JB1_ENV - ${JB1_ENV}"
+          echo -e "workflow变量 - 流级别: ${{ env.WF_ENV }}\tworkflow变量 - 作业级别：$JB1_ENV - ${JB1_ENV}"
           echo -e "配置变量-环境级别：${{ vars.ENV }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           pwd && ls -a
           echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
