@@ -98,15 +98,7 @@ jobs:
       #     SCRIPT_AFTER: curl -s https://www.cip.cc/; echo "服务器部署（更新目录，用户权限，安装运行环境，重启进程）"
       - name: 部署1
         id: demo1
-        run: echo "conclusion => ${{ steps.demo.conclusion }}"
-      - name: 部署2
-        id: demo2
-        run: echo "conclusion => ${{ steps.demo1.conclusion }}"; exit 1
-      - name: The demo step has failed
-        if: ${{ failure() }}
-        run: |
-          echo "conclusion => ${{ steps.demo2.conclusion }}"
-          echo "job status: ${{ job.status }}"
+        run: exit 1
       - name: 飞书通知
         if: ${{ always() }}
         env:
@@ -119,7 +111,5 @@ jobs:
           wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
           tar zxf linux-amd64-actions-feishu.tar.gz feishu
           ./feishu
-      - name: 其他操作
-        run: echo "不会被运行"
 
           
