@@ -14,13 +14,12 @@ on:
         description: '环境'
         required: true
         type: environment
-env:
-  ENV: 'dev'
+
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: $ENV
+    environment: dev
     steps:
       # - name: 拉取代码
       #   uses: actions/checkout@v4
@@ -43,8 +42,7 @@ jobs:
           echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID"
           echo "workflow链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/${GITHUB_WORKFLOW}.yml"
           echo -e "本次运行详细链接：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          echo "配置变量var1：${{ vars.VAR1 }}"
-          echo -e "workflow变量-流级别: ${{ env.ENV }}\t环境代号-输入 - ${{ inputs.environment }}"
+          echo -e "环境代号-workflow输入 - ${{ inputs.environment }}"
           echo -e "配置变量-环境级别：${{ vars.ENV }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           pwd && ls -a
           echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
