@@ -9,17 +9,17 @@ on:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      environment:
-        description: '环境'
-        required: true
-        type: environment
+    # inputs:
+    #   environment:
+    #     description: '环境'
+    #     required: true
+    #     type: environment
 
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    # environment: ${{ inputs.environment }}
     env:
       ENV_CODE: ${{ vars.ENV }}
     steps:
