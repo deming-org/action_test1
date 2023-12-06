@@ -93,11 +93,17 @@ jobs:
           # # Script to run on host machine before rsync
           # SCRIPT_BEFORE: # optional, default is 
           # Script to run on host machine after rsync
-          SCRIPT_AFTER: curl -s https://www.cip.cc/; echo "服务器部署操作"
-          
-      # - name: 服务器部署操作
-      #   run: echo "解压缩到指定目录， 用户权限， 重启进程"
-      - name: 发送通知
-        run: echo "飞书机器人通知"
+          SCRIPT_AFTER: curl -s https://www.cip.cc/; echo "服务器部署（更新目录，用户权限，安装运行环境，重启进程）"
+      - name: 飞书通知
+        env:
+          ACTIONS_FEISHU_TAG: 'v1.3.1'
+          INPUT_WEBHOOK: "${{ secrets.FS_ROBOT_TEST }}"
+          INPUT_MESSAGE_TYPE: "post"
+          INPUT_TITLE: "${{ github.WORKFLOW }}流水线通知"
+          INPUT_CONTENT: "仓库地址: ${{ github.repository }}\n发布环境：${{ vars.env }}\n执行人：4${{ github.ACTOR }}\njob名称：$GITHUB_JOB\n运行状态：成功"
+        run: |
+          wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
+          tar zxf linux-amd64-actions-feishu.tar.gz feishu
+          ./feishu
 
           
