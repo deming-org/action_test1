@@ -104,7 +104,9 @@ jobs:
         run: echo "conclusion => ${{ steps.demo1.conclusion }}"; exit 1
       - name: The demo step has failed
         if: ${{ failure() }}
-        run: echo "conclusion => ${{ steps.demo2.conclusion }}, job status: ${{ job.status }}"
+        run: |
+          echo "conclusion => ${{ steps.demo2.conclusion }}"
+          echo "job status: ${{ job.status }}"
       # - name: 飞书通知
       #   env:
       #     ACTIONS_FEISHU_TAG: 'v1.3.1'
