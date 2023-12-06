@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
-      ENV_CODE: ${{ inputs.environment }}
+      ENV_CODE: ${{ vars.ENV }}
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -63,6 +63,8 @@ jobs:
       - build
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      ENV_CODE: ${{ vars.ENV }}
     steps:
       - name: 下载制品
         uses: actions/download-artifact@v2.1.1
