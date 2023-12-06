@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-build
-          path: ${{ GITHUB_WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz
+          path: ${{ GITHUB_WORKFLOW }}_${{ env.ENV_CODE }}_${{ github.sha }}.tgz
   deploy:
     needs:
       - build
