@@ -107,16 +107,19 @@ jobs:
         run: |
           echo "conclusion => ${{ steps.demo2.conclusion }}"
           echo "job status: ${{ job.status }}"
-      # - name: 飞书通知
-      #   env:
-      #     ACTIONS_FEISHU_TAG: 'v1.3.1'
-      #     INPUT_WEBHOOK: "${{ secrets.FS_ROBOT_TEST }}"
-      #     INPUT_MESSAGE_TYPE: "post"
-      #     INPUT_TITLE: "${{ github.WORKFLOW }}流水线通知"
-      #     INPUT_CONTENT: "仓库地址: ${{ github.repository }}/tree/${{ github.REF_NAME }}\n发布环境：${{ vars.env }}\n执行人：${{ github.ACTOR }}\njob名称：${{ github.JOB }}\n运行状态：成功"
-      #   run: |
-      #     wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
-      #     tar zxf linux-amd64-actions-feishu.tar.gz feishu
-      #     ./feishu
+      - name: 飞书通知
+        if: ${{ always() }}
+        env:
+          ACTIONS_FEISHU_TAG: 'v1.3.1'
+          INPUT_WEBHOOK: "${{ secrets.FS_ROBOT_TEST }}"
+          INPUT_MESSAGE_TYPE: "post"
+          INPUT_TITLE: "${{ github.WORKFLOW }}流水线通知"
+          INPUT_CONTENT: "仓库地址: ${{ github.repository }}/tree/${{ github.REF_NAME }}\n发布环境：${{ vars.env }}\n执行人：${{ github.ACTOR }}\njob名称：${{ github.JOB }}\n运行状态：${{ job.status }}"
+        run: |
+          wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
+          tar zxf linux-amd64-actions-feishu.tar.gz feishu
+          ./feishu
+      - name: 其他操作
+        run: echo "不会被运行"
 
           
