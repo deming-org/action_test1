@@ -15,7 +15,7 @@ on:
         required: true
         type: environment
 env:
-  ENV: dev
+  ENV: 'dev'
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
