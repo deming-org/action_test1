@@ -19,24 +19,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 必须指定才能使用 环境级别的配置变量
     environment: dev
     steps:
-      # - name: 拉取代码
-      #   uses: actions/checkout@v4
-      #   with: 
-      #     ref: ${{ github.REF_NAME }}
-      # - name: 设置编译环境（python）
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.9.13'
-      #     architecture: 'x64'
-      # - name: 安装依赖（测试代码需要）
-      #   run: |
-      #     python -c "import sys; print(sys.version)"
-      #     python -m pip install --upgrade pip
-      #     # pip install -r requirements.txt
-      # - name: 测试代码
-      #   run: python app.py
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with: 
+          ref: ${{ github.REF_NAME }}
+      - name: 设置编译环境（python）
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.13'
+      - name: 安装依赖（测试代码需要）
+        run: |
+          python -c "import sys; print(sys.version)"
+          python -m pip install --upgrade pip
+          # pip install -r requirements.txt
+      - name: 测试代码
+        run: python app.py
       - name: 执行编译
         run: |
           echo -e "job_id：$GITHUB_JOB  事件：$GITHUB_EVENT_NAME  操作人：$GITHUB_ACTOR - $GITHUB_ACTOR_ID"
@@ -46,34 +46,33 @@ jobs:
           echo -e "配置变量-环境级别：${{ vars.ENV }}\t配置变量-仓库级别：${{ vars.REPO_VAR }}\t配置变量-组织级别：${{ vars.ORG_VAR }}"
           pwd && ls -a
           echo -e "\033[36m我是编译脚本，执行完成\033[0m" 
-  #     - name: 打包压缩
-  #       run: |
-  #         rm -rf .git*
-  #         tar -zcvf ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz *
-  #         ls -l ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz && tar -tzvf ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz
-  #     - name: 上传到artifact
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: app-build
-  #         path: ${{ github.WORKFLOW }}_${{ env.ENV_CODE }}_${{ github.sha }}.tgz
-  # deploy:
-  #   needs:
-  #     - build
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ inputs.environment }}
-  #   env:
-  #     ENV_CODE: ${{ vars.ENV }}
-  #   steps:
-  #     - name: 下载制品
-  #       uses: actions/download-artifact@v2.1.1
-  #       with:
-  #         # Artifact name
-  #         name: app-build
-  #     - name: 上传服务器
-  #       run: ls -a && echo "我是上传服务器"
-  #     - name: 服务器部署操作
-  #       run: echo "解压缩到指定目录， 用户权限， 重启进程"
-  #     - name: 发送通知
-  #       run: echo "飞书机器人通知"
+      - name: 打包压缩
+        run: |
+          rm -rf .git*
+          tar -zcvf ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz *
+          ls -l ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz && tar -tzvf ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz
+      - name: 上传到artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-build
+          path: ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz
+          
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: 下载制品
+        uses: actions/download-artifact@v2.1.1
+        with:
+          # Artifact name
+          name: app-build
+      - name: 上传服务器
+        run: ls -a && echo "我是上传服务器"
+      - name: 服务器部署操作
+        run: echo "解压缩到指定目录， 用户权限， 重启进程"
+      - name: 发送通知
+        run: echo "飞书机器人通知"
 
           
