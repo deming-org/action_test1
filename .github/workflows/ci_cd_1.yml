@@ -45,13 +45,13 @@ jobs:
       - name: 打包压缩
         run: |
           rm -rf .git*
-          tar -zcvf ${{ GITHUB_WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz *
-          ls -l ${{ GITHUB_WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz && tar -tzvf ${{ GITHUB_WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz
+          tar -zcvf ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz *
+          ls -l ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz && tar -tzvf ${{ github.WORKFLOW }}_${ENV_CODE}_${{ github.sha }}.tgz
       - name: 上传到artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-build
-          path: ${{ GITHUB_WORKFLOW }}_${{ env.ENV_CODE }}_${{ github.sha }}.tgz
+          path: ${{ github.WORKFLOW }}_${{ env.ENV_CODE }}_${{ github.sha }}.tgz
   deploy:
     needs:
       - build
