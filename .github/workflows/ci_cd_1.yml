@@ -1,4 +1,4 @@
-name: cicd1
+name: ci_cd_1
 
 # 触发workflow的条件
 on:
