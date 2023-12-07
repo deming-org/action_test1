@@ -1,0 +1,19 @@
+name: 数据调试
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  job1:
+    # strategy:
+    #   matrix:
+    #     hosts: [10, 12, 14]
+    name: 作业1
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: 随便打印下
+        run: python -c "print('hello')"
+        # ${{ fromJSON(vars.HOST_L) }}
