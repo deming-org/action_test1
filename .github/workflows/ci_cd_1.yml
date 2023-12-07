@@ -20,7 +20,7 @@ jobs:
   build:
     uses: deming-org/share_workflows/.github/workflows/workflow-1.yml@main
     with:
-      config-path: .github/labeler.yml
+      config-path: ${{ vars.VAR1 }}
     secrets:
       token: hello
   #   runs-on: ubuntu-latest
