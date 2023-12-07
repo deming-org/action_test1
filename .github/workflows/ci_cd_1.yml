@@ -18,9 +18,13 @@ on:
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
+    strategy:
+      matrix:
+        target: [dev, stage, prod]
     uses: deming-org/share_workflows/.github/workflows/workflow-1.yml@main
     with:
-      config-path: ${{ vars.VAR1 }}
+      # config-path: ${{ vars.VAR1 }}
+      config-path: ${{ matrix.target }}
     secrets:
       token: hello
   #   runs-on: ubuntu-latest
