@@ -18,13 +18,16 @@ on:
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
   build:
+    name: 编译
     strategy:
+      fail-fast: false
+      max-parallel: 2
       matrix:
-        target: [dev, stage, prod]
+        hosts: ${{ vars.HOST_L }}
     uses: deming-org/share_workflows/.github/workflows/workflow-1.yml@main
     with:
       # config-path: ${{ vars.VAR1 }}
-      config-path: ${{ matrix.target }}
+      config-path: ${{ matrix.hosts }}
     secrets: inherit
     # secrets:
     #   token: hello
@@ -68,6 +71,7 @@ jobs:
   #         path: ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz
   
   deploy:
+    name: 部署
     needs:
       - build
     runs-on: ubuntu-latest
