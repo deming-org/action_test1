@@ -64,7 +64,7 @@ jobs:
     environment: dev
     env:
       status: 成功
-      myNull: ${{ status != null && '成功1' || '失败' }}
+      myNull: ${{ env.status != null && '成功1' || '失败' }}
       myBoolean: ${{ false }}
       myIntegerNumber: ${{ 711 }}
       myFloatNumber: ${{ -9.2 }}
