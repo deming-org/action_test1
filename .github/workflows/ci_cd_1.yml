@@ -22,7 +22,7 @@ jobs:
     with:
       config-path: .github/labeler.yml
     secrets:
-      token: ${{ secrets.env }}
+      token: ${{ hello workd }}
   #   runs-on: ubuntu-latest
   #   # 必须指定才能使用 环境级别的配置变量
   #   environment: dev
