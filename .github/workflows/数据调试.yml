@@ -16,5 +16,7 @@ jobs:
     steps:
       - name: 随便打印下
         run: |
-          python -c "print(type(${{ fromJSON(vars.HOST_L) }}))"
-          python -c "print(${{ fromJSON(vars.HOST_L) }})"
+          python -c "print(type(${{ toJSON(vars.HOST_L) }}))"
+          python -c "print(${{ toJSON(vars.HOST_L) }})"
+          # python -c "print(type(${{ fromJSON(vars.HOST_L) }}))"
+          # python -c "print(${{ fromJSON(vars.HOST_L) }})"
