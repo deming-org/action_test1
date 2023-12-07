@@ -7,16 +7,17 @@ on:
 
 jobs:
   job1:
-    strategy:
-      matrix:
-        hosts: [10, 12, 14]
+    # strategy:
+    #   matrix:
+    #     hosts: [10, 12, 14]
     name: 作业1
     runs-on: ubuntu-latest
-    environment: dev
+    environment: test
     steps:
       - name: 随便打印下
         run: |
-          echo ${{ matrix.hosts }}
+          echo ${{ vars.env }}
+          # echo ${{ matrix.hosts }}
           # python -c "print(type(${{ toJSON(vars.HOST_L) }}))"
           # python -c "print(${{ toJSON(vars.HOST_L) }})"
           # python -c "print(type(${{ fromJSON(vars.HOST_L) }}))"
