@@ -17,7 +17,12 @@ on:
 
 # 组成工作流的jobs， 包含一个以上的job
 jobs:
-  # build:
+  build:
+    uses: deming-org/share_workflows/.github/workflows/workflow-1.yml@main
+    with:
+      config-path: .github/labeler.yml
+    secrets:
+      envPAT: ${{ secrets.env }}
   #   runs-on: ubuntu-latest
   #   # 必须指定才能使用 环境级别的配置变量
   #   environment: dev
@@ -56,22 +61,12 @@ jobs:
   #       with:
   #         name: app-build
   #         path: ${{ github.WORKFLOW }}_${{ vars.env }}_${{ github.sha }}.tgz
-          
+  
   deploy:
-    # needs:
-    #   - build
+    needs:
+      - build
     runs-on: ubuntu-latest
     environment: dev
-    env:
-      status: 成功
-      myNull: ${{ jobs.deploy.environment != null && 'dev1' || 'prod' }}
-      myBoolean: ${{ false }}
-      myIntegerNumber: ${{ 711 }}
-      myFloatNumber: ${{ -9.2 }}
-      myHexNumber: ${{ 0xff }}
-      myExponentialNumber: ${{ -2.99e-2 }}
-      myString: Mona the Octocat
-      myStringInBraces: ${{ 'It''s open source!' }}
     steps:
       # - name: 下载制品
       #   uses: actions/download-artifact@v3.0.2
@@ -104,31 +99,19 @@ jobs:
       #     # SCRIPT_BEFORE: # optional, default is 
       #     # Script to run on host machine after rsync
       #     SCRIPT_AFTER: curl -s https://www.cip.cc/; echo "服务器部署（更新目录，用户权限，安装运行环境，重启进程）"
-      - name: 部署1
-        id: demo1
+      - name: 飞书通知
+        # if: ${{ always() }}
+        if: ${{ !cancelled() }}
+        env:
+          ACTIONS_FEISHU_TAG: 'v1.3.1'
+          INPUT_WEBHOOK: "${{ secrets.FS_ROBOT_TEST }}"
+          INPUT_MESSAGE_TYPE: "post"
+          INPUT_TITLE: "${{ github.WORKFLOW }}流水线通知"
+          INPUT_CONTENT: "仓库地址: ${{ github.SERVER_URL }}/${{ github.repository }}/tree/${{ github.REF_NAME }}\n发布环境：${{ vars.env }}\n执行人：${{ github.ACTOR }}\njob名称：${{ github.JOB }}\n运行状态：${{ job.status }}"
         run: |
-          echo "status: ${status}"
-          echo "myNull: ${myNull}"
-          echo "myBoolean: $myBoolean"
-          echo "myIntegerNumber: $myIntegerNumber"
-          echo "myFloatNumber: $myFloatNumber"
-          echo "myHexNumber: $myHexNumber"
-          echo "myExponentialNumber: $myExponentialNumber"
-          echo "myString: $myString"
-          echo "myStringInBraces: $myStringInBraces"
-      # - name: 飞书通知
-      #   # if: ${{ always() }}
-      #   if: ${{ !cancelled() }}
-      #   env:
-      #     ACTIONS_FEISHU_TAG: 'v1.3.1'
-      #     INPUT_WEBHOOK: "${{ secrets.FS_ROBOT_TEST }}"
-      #     INPUT_MESSAGE_TYPE: "post"
-      #     INPUT_TITLE: "${{ github.WORKFLOW }}流水线通知"
-      #     INPUT_CONTENT: "仓库地址: ${{ github.repository }}/tree/${{ github.REF_NAME }}\n发布环境：${{ vars.env }}\n执行人：${{ github.ACTOR }}\njob名称：${{ github.JOB }}\n运行状态：${{ job.status }}"
-      #   run: |
-      #     wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
-      #     tar zxf linux-amd64-actions-feishu.tar.gz feishu
-      #     ./feishu
+          wget -q https://github.com/xiachufang/actions-feishu/releases/download/${{ env.ACTIONS_FEISHU_TAG }}/linux-amd64-actions-feishu.tar.gz
+          tar zxf linux-amd64-actions-feishu.tar.gz feishu
+          ./feishu
       
 
           
