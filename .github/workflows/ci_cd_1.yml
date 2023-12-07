@@ -25,8 +25,9 @@ jobs:
     with:
       # config-path: ${{ vars.VAR1 }}
       config-path: ${{ matrix.target }}
-    secrets:
-      token: hello
+    secrets: inherit
+    # secrets:
+    #   token: hello
   #   runs-on: ubuntu-latest
   #   # 必须指定才能使用 环境级别的配置变量
   #   environment: dev
