@@ -18,10 +18,10 @@ jobs:
   build:
     name: 编译
     uses: deming-org/share_workflows/.github/workflows/build_dev.yml@main
-    with:
-      repo_type: svn
-      # repository: 
-      # ref:
+    # with:
+    #   repo_type: svn
+    #   # repository: 
+    #   # ref:
       
     secrets: inherit
     # secrets:
