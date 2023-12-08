@@ -1,0 +1,38 @@
+name: ci_cd_3
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '环境'
+        required: true
+        type: environment
+        
+jobs:
+  build:
+    name: 编译
+    uses: deming-org/share_workflows/.github/workflows/python_build_dev.yml@main
+    # with:
+    #   repo_type: svn
+    #   # repository: 
+    #   # ref:
+      
+    secrets: inherit
+    # secrets:
+    #   repo_token: hello
+  deploy:
+    name: 主机部署
+    needs:
+      - build
+    uses: deming-org/share_workflows/.github/workflows/deploy_dev.yml@main
+    with:
+      deploy_path: /data/
+      setup_cmd: 'bash setup.sh'
+      restart_cmd: 'bash restart.sh'
+    secrets: inherit
