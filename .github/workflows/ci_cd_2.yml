@@ -1,0 +1,33 @@
+name: ci_cd_2
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '环境'
+        required: true
+        type: environment
+        
+jobs:
+  build:
+    name: 编译
+    uses: deming-org/share_workflows/.github/workflows/build_dev.yml@main
+    with:
+      repo_type: svn
+      # repository: 
+      # ref:
+      
+    secrets: inherit
+    # secrets:
+    #   repo_token: hello
+    
+    
+      
+
+          
