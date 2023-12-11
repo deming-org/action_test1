@@ -23,4 +23,5 @@ jobs:
       - name: 随便打印些东西
         run: |
           pwd && echo -e "\033[36mHello World\033[0m"
+          # 运行的用户是，执行run.sh的用户
           id
