@@ -1,0 +1,26 @@
+name: 测试自托管运行器
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '环境'
+        required: true
+        type: environment
+
+jobs:
+  build:
+    name: 编译
+    runs-on: self-hosted
+    environment: dev
+    steps:
+      - name: 随便打印些东西
+        run: |
+          pwd && echo -e "\033[36mHello World\033[0m"
+          id
