@@ -1,0 +1,25 @@
+name: 调用触发事件repository_dispatch类型的工作流
+
+on: 
+  push:
+    branches:
+      - main
+  # workflow_dispatch:
+  #   inputs:
+  #     ref:
+  #       description: '分支或标签(正式使用的时候不要给默认值)'
+  #       default: 'main'
+  #       required: true
+  #       type: string
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 触发真正的工作流
+        uses: peter-evans/repository-dispatch@v2.1.2
+        with:
+          token: ${{ secrets.GH_TOEKN }}  # 使用你的个人访问令牌
+          repository: deming-org/workflows  # 替换为你的仓库的所有者和名称
+          event-type: python-demo-dev2
+          client-payload: '{"github-server-url": ${{ github.github-server-url }}, "repository ": ${{ github.repository  }}, "ref": ${{ github.GITHUB_REF_NAME }} }'
