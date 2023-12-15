@@ -19,7 +19,7 @@ jobs:
       - name: 触发真正的工作流
         uses: peter-evans/repository-dispatch@v2.1.2
         with:
-          token: ${{ secrets.GH_TOEKN }}  # 使用你的个人访问令牌
+          token: ${{ secrets.GH_TOKEN }}  # 使用你的个人访问令牌
           repository: deming-org/workflows  # 替换为你的仓库的所有者和名称
           event-type: python-demo-dev2
           client-payload: '{"github-server-url": "${{ github.github-server-url }}", "repository ": "${{ github.repository  }}", "ref": "${{ github.REF_NAME }}"}'
