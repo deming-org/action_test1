@@ -1,3 +1,4 @@
+name: diy-action-2
 on: 
   workflow_dispatch:
     inputs:
