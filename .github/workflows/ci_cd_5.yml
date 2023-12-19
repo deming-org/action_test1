@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: 字符串方式传入命令，执行测试
         run: |
-          'echo -e "\033[33mHello cmd\033[0m"'
-          'echo 123'
+          "echo -e '\033[33mHello cmd\033[0m'"
+          "echo 123"
           
