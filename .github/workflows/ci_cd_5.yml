@@ -1,0 +1,16 @@
+name: ci_cd_5
+
+on:
+  push:
+    branches:
+      - main
+        
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 字符串方式传入命令，执行测试
+        run: |
+          'echo -e "\033[33mHello cmd\033[0m"'
+          'echo 123'
+          
