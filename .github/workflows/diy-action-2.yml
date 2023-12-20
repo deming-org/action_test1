@@ -17,7 +17,7 @@ jobs:
         id: foo
         uses: deming-org/action-checkout@main
         with:
-          repository: '${{ vars.SVN_SERVER }}'
+          repository: '${{ secrets.SVN_SERVER }}'
           ref: ${{ inputs.ref }}
           repo_type: 'svn'
           username: ${{ secrets.SVN_USER }}
