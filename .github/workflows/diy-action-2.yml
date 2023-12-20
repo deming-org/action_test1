@@ -26,3 +26,8 @@ jobs:
         run: |
           pwd && ls -lt
           # svn --username ${{ secrets.SVN_USER }} --password ${{ secrets.SVN_PWD }} log || echo -e "\033[31m 查看提交信息失败\033[om"
+      - name: 上面有步骤失败才执行
+        if: ${{ failure() }}
+        run: |
+          pwd && ls -lt
+          echo -e "\033[31m前面有步骤失败了\033[0m"
