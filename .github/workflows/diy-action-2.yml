@@ -23,4 +23,6 @@ jobs:
           username: ${{ secrets.SVN_USER }}
           password: ${{ secrets.SVN_PWD }}
       - name: 验证
-        run: pwd && ls -lt
+        run: |
+          pwd && ls -lt
+          svn --username ${{ secrets.SVN_USER }} --password ${{ secrets.SVN_PWD }} log || echo -e "\033[31m 查看提交信息失败\033[om"
